@@ -4,6 +4,7 @@ import Image from "next/image";
 import { User as UserIcon, MapPin, Calendar, ShieldCheck } from "lucide-react";
 import { getProfileByUsername } from "@/services/profiles";
 import { createClient } from "@/lib/supabase/server";
+import { LISTING_SELECT } from "@/services/listings";
 import { ListingGrid } from "@/components/listings/ListingGrid";
 import { getAvatarUrl } from "@/lib/supabase/storage";
 import { formatFullDate } from "@/lib/utils";
@@ -32,13 +33,7 @@ export default async function ProfilePage({ params }: ProfilePageProps) {
   const supabase = await createClient();
   const { data } = await supabase
     .from("listings")
-    .select(`
-      *,
-      category:categories!listings_category_id_fkey ( id, slug, name, icon ),
-      subcategory:subcategories!listings_subcategory_id_fkey ( id, slug, name ),
-      images:listing_images ( id, storage_path, display_order, is_primary ),
-      seller:profiles!listings_seller_id_fkey ( id, username, display_name, avatar_url, city, created_at, listing_count )
-    `)
+    .select(LISTING_SELECT)
     .eq("seller_id", profile.id)
     .eq("status", "active")
     .order("created_at", { ascending: false });

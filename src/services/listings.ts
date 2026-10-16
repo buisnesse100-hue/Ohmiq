@@ -3,8 +3,16 @@ import { LISTINGS_PER_PAGE } from "@/lib/constants";
 import type { ListingWithRelations, SearchFilters } from "@/types";
 import type { ListingCondition } from "@/types/database";
 
-const LISTING_SELECT = `
-  *,
+// Colonnes explicites : contact_phone/whatsapp/email et serial_number ne sont PAS lisibles
+// via l'API (voir get_listing_contacts côté base).
+export const LISTING_SELECT = `
+  id, seller_id, slug, title, description, price, is_negotiable, category_id, subcategory_id,
+  city, postal_code, latitude, longitude, condition, delivery_available,
+  contact_phone_public, contact_whatsapp_public, contact_email_public, status,
+  is_promoted, promotion_started_at, promotion_expires_at, view_count, call_click_count,
+  whatsapp_click_count, email_click_count, favorite_count, published_at, sold_at, created_at,
+  updated_at, brand_id, model_id, has_invoice, has_warranty, warranty_until, purchase_date,
+  known_defects, accessories_included, is_professional_listing,
   category:categories!listings_category_id_fkey ( id, slug, name, icon ),
   subcategory:subcategories!listings_subcategory_id_fkey ( id, slug, name ),
   images:listing_images ( id, storage_path, display_order, is_primary ),

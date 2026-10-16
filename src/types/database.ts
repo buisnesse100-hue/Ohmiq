@@ -464,6 +464,16 @@ export interface Database {
         };
         Returns: boolean;
       };
+      get_listing_contacts: {
+        Args: { p_listing_id: string };
+        Returns: {
+          contact_phone: string | null;
+          contact_whatsapp: string | null;
+          contact_email: string | null;
+          serial_number: string | null;
+        }[];
+      };
+      get_my_phone: { Args: Record<string, never>; Returns: string | null };
       is_admin: { Args: Record<string, never>; Returns: boolean };
       is_banned: { Args: Record<string, never>; Returns: boolean };
     };

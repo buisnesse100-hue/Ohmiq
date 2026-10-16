@@ -8,7 +8,7 @@ export async function requireAdminProfile() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("*")
+    .select("id, username, display_name, role, is_banned")
     .eq("id", auth.user.id)
     .maybeSingle();
 

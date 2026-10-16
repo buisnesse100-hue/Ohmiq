@@ -70,9 +70,21 @@ export default async function ListingPage({ params }: ListingPageProps) {
   ]);
 
   const isOwner = profile?.id === listing.seller_id;
-  // Le numéro de série/IMEI n'est jamais exposé publiquement, même dans la réponse API :
-  // seul le propriétaire (ou un futur accès admin dédié) peut le voir.
-  const safeListing = isOwner ? listing : { ...listing, serial_number: null };
+
+  // Coordonnées et n° de série ne sont pas lisibles directement via l'API : la base ne renvoie
+  // que ce que le vendeur a rendu public (ou tout, pour le propriétaire / un admin).
+  const contactsClient = await createClient();
+  const { data: contactRows } = await contactsClient.rpc("get_listing_contacts", {
+    p_listing_id: listing.id,
+  });
+  const contacts = contactRows?.[0];
+  const safeListing = {
+    ...listing,
+    contact_phone: contacts?.contact_phone ?? null,
+    contact_whatsapp: contacts?.contact_whatsapp ?? null,
+    contact_email: contacts?.contact_email ?? null,
+    serial_number: contacts?.serial_number ?? null,
+  };
 
   let isFavorited = false;
   if (profile) {
@@ -185,7 +197,7 @@ export default async function ListingPage({ params }: ListingPageProps) {
 
           <div className="rounded-[16px] border border-line p-4">
             <h2 className="mb-3 font-display text-lg font-semibold">Coordonnées directes</h2>
-            <ContactButtons listing={listing} />
+            <ContactButtons listing={safeListing} />
           </div>
 
           {dealAssessment && <DealBadge assessment={dealAssessment} />}
