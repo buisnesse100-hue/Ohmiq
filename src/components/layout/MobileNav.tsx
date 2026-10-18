@@ -17,7 +17,7 @@ export async function MobileNav() {
 
   return (
     <nav
-      className="fixed inset-x-0 bottom-0 z-40 flex h-16 items-center justify-around border-t border-line bg-paper md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 flex h-16 items-center justify-around border-t border-line bg-paper/90 backdrop-blur-xl md:hidden"
       aria-label="Navigation principale"
     >
       {items.map((item) => (

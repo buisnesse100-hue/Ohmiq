@@ -4,6 +4,7 @@ import { MapPin, Sparkles, BadgeCheck } from "lucide-react";
 import { formatPrice, formatRelativeDate } from "@/lib/utils";
 import { getListingImageUrl } from "@/lib/supabase/storage";
 import { Badge } from "@/components/ui/Badge";
+import { CONDITION_LABELS } from "@/lib/constants";
 import type { ListingWithRelations } from "@/types";
 
 export function ListingCard({ listing }: { listing: ListingWithRelations }) {
@@ -14,7 +15,7 @@ export function ListingCard({ listing }: { listing: ListingWithRelations }) {
   return (
     <Link
       href={`/annonce/${listing.slug}`}
-      className="group block overflow-hidden rounded-[16px] border border-line bg-paper transition-all hover:-translate-y-0.5 hover:border-volt/30 hover:shadow-[0_12px_32px_rgba(124,92,255,0.12)]"
+      className="group block overflow-hidden rounded-[16px] border border-line bg-paper transition-colors hover:border-ink"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-paper-muted">
         {imageUrl ? (
@@ -42,6 +43,9 @@ export function ListingCard({ listing }: { listing: ListingWithRelations }) {
             </Badge>
           )}
         </div>
+        <span className="absolute bottom-2.5 left-2.5 rounded-full bg-ink/80 px-2.5 py-1 text-[11px] font-medium text-paper backdrop-blur-sm">
+          {CONDITION_LABELS[listing.condition]}
+        </span>
         {listing.status === "sold" && (
           <span className="absolute inset-0 flex items-center justify-center bg-ink/60 text-sm font-semibold text-paper">
             Vendu
@@ -50,7 +54,7 @@ export function ListingCard({ listing }: { listing: ListingWithRelations }) {
       </div>
 
       <div className="p-3.5">
-        <p className="font-display text-lg font-semibold text-ink">{formatPrice(listing.price)}</p>
+        <p className="tabular font-display text-xl font-bold text-ink">{formatPrice(listing.price)}</p>
         <p className="mt-0.5 line-clamp-2 text-sm text-ink">{listing.title}</p>
         {listing.brand?.name && (
           <p className="mt-0.5 text-xs font-medium text-volt-ink">{listing.brand.name}</p>

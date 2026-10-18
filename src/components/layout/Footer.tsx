@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SITE_NAME } from "@/lib/constants";
+import { Logo } from "@/components/brand/Logo";
 
 const columns = [
   {
@@ -24,23 +24,23 @@ const columns = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-paper-muted">
-      <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-        <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
+    <footer className="bg-ink text-paper">
+      <div className="mx-auto max-w-6xl px-4 py-14 sm:px-6">
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-4">
           <div className="col-span-2">
-            <p className="font-display text-lg font-semibold text-ink">{SITE_NAME}</p>
-            <p className="mt-2 max-w-xs text-sm text-muted">
-              La seconde vie de la tech. Achetez et vendez de l&apos;électronique
-              d&apos;occasion en toute confiance.
+            <Logo onDark />
+            <p className="mt-4 max-w-xs text-sm text-paper/60">
+              La seconde vie de la tech. Achetez et vendez de l&apos;électronique d&apos;occasion en
+              toute confiance.
             </p>
           </div>
           {columns.map((column) => (
             <div key={column.title}>
-              <p className="text-sm font-semibold text-ink">{column.title}</p>
-              <ul className="mt-3 space-y-2">
+              <p className="text-sm font-semibold text-paper">{column.title}</p>
+              <ul className="mt-4 space-y-2.5">
                 {column.links.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} className="text-sm text-muted hover:text-ink">
+                    <Link href={link.href} className="text-sm text-paper/60 transition-colors hover:text-paper">
                       {link.label}
                     </Link>
                   </li>
@@ -49,8 +49,8 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <p className="mt-10 text-xs text-muted">
-          © {new Date().getFullYear()} {SITE_NAME}. Tous droits réservés.
+        <p className="mt-12 border-t border-white/10 pt-6 text-xs text-paper/45">
+          © {new Date().getFullYear()} OHMIQ. Tous droits réservés.
         </p>
       </div>
     </footer>
